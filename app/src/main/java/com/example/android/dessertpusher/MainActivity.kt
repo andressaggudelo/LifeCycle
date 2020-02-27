@@ -18,6 +18,7 @@ package com.example.android.dessertpusher
 
 import android.content.ActivityNotFoundException
 import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
@@ -80,12 +81,30 @@ class MainActivity : AppCompatActivity() {
         //  Now I have the timer object
         dessertTimer = DessertTimer(this.lifecycle)
 
+        //  Check if have something in the Bundle
+        if(savedInstanceState != null){
+            dessertsSold = savedInstanceState.getInt("key_dessertssold")
+            revenue = savedInstanceState.getInt("key_revenue")
+        }
+
         // Set the TextViews to the right values
         binding.revenue = revenue
         binding.amountSold = dessertsSold
 
         // Make sure the correct dessert is showing
         binding.dessertButton.setImageResource(currentDessert.imageId)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        super.onSaveInstanceState(outState)
+        //Timber.i("onSavenstanceState called")
+        outState!!.putInt("key_dessertssold", dessertsSold)
+        outState!!.putInt("key_revenue", revenue)
+    }
+
+    //  This method is called after 'onStart' to recover data from Bundle (method above)
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
     }
 
     override fun onStart() {
