@@ -29,7 +29,7 @@ import androidx.lifecycle.LifecycleObserver
 import com.example.android.dessertpusher.databinding.ActivityMainBinding
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), LifecycleObserver {
+class MainActivity : AppCompatActivity() {
 
     private var revenue = 0
     private var dessertsSold = 0
@@ -78,7 +78,7 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         }
 
         //  Now I have the timer object
-        dessertTimer = DessertTimer()
+        dessertTimer = DessertTimer(this.lifecycle)
 
         // Set the TextViews to the right values
         binding.revenue = revenue
@@ -92,7 +92,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
         super.onStart()
         //Log.i("MainActivity", "onStart called")
         Timber.i("onStart called")
-        dessertTimer.startTimer()
     }
 
     override fun onResume() {
@@ -118,7 +117,6 @@ class MainActivity : AppCompatActivity(), LifecycleObserver {
     override fun onStop() {
         super.onStop()
         Timber.i("onStop called")
-        dessertTimer.stopTimer()
     }
 
     /**
